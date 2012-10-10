@@ -227,6 +227,8 @@ public class Grammar {
 							this.axiom = new NonTerminal(this.idMax++, a.get(0));
 							
 						} else {
+							buffer.close();
+							file.close();
 							throw new GrammarException("Syntax error at line "+ numLine + ". Just one axiom is required.");
 						}
 						break;
@@ -234,6 +236,8 @@ public class Grammar {
 						List<String> nt = new LinkedList<String>(Arrays.asList(subLine.get(1).split(" ")));
 						nt.removeAll(Collections.singleton(""));
 						if (nt.size() == 0) {
+							buffer.close();
+							file.close();
 							throw new GrammarException("Syntax error at line "+ numLine + ". At least one non terminal is required");
 						}
 						for(String el: nt) {
@@ -251,6 +255,8 @@ public class Grammar {
 						}
 						break;
 						default:
+							buffer.close();
+							file.close();
 							throw new GrammarException("Syntax error at line "+ numLine);
 					}
 				/* Production definition */	
@@ -313,6 +319,7 @@ public class Grammar {
 					}
 				}
 			}	
+			buffer.close();
 			file.close();
 			if(this.axiom == null || this.terminals.isEmpty() || this.nonterminals.isEmpty() || this.productions.isEmpty()) {
 				throw new GrammarException("Incomplete grammar");
