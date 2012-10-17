@@ -5,6 +5,7 @@ import grammar.Derivation;
 import grammar.Grammar;
 import grammar.GrammarException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 public class MutationTest {
@@ -25,7 +26,7 @@ public class MutationTest {
     @Test
     public void generateANDmutate(){
         Derivation auxD = null;
-
+        
         for (int i = 0; i < 1; i++) {
             try {
                 auxD = new Derivation( grammar, maxDepth );            
@@ -34,7 +35,8 @@ public class MutationTest {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            System.out.println( auxD.getWord() );
+            String auxCopy = auxD.getWord();
+            System.out.println( auxCopy );            
             try {
                 auxD.mutate();
             }
@@ -43,6 +45,8 @@ public class MutationTest {
                 e.printStackTrace();
             }
             System.out.println( auxD.getWord() );
+            System.out.println("Mutation distance: "+StringUtils.getLevenshteinDistance( auxD.getWord(), auxCopy));
+            
             
         }
 

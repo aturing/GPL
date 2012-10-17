@@ -233,17 +233,30 @@ public class Derivation {
 	}
 	
 	public void mutate() throws GrammarException {
-	    if(this.derivation!=null){
-            Position n = null;
-            Element e = null;
-            
-            PreOrderIterator poi = new PreOrderIterator(this.derivation);
-            while(poi.hasNext()){
-                n = (Position) poi.nextObject();
-                e = (Element)n.get("Element");
-                System.out.println(e.getSymbol());                   
-            }
-        }
+	    ArrayList<Position> NT = this.getNonTerminalNodes();
+	    Random rand = new Random();
+        rand.setSeed(System.nanoTime());
+        int pos = rand.nextInt(NT.size());
+	    Position mPoint = NT.get(pos);
+	    Element symbol = ((Element) mPoint.get("Element"));
+//	    System.out.print("Mutation node: "+symbol.getSymbol()+" -> ");
+	    Production prod = (Production) mPoint.get( "Production" );
+	    ArrayList<Element> E = prod.getRight();
+//	    for (Element e:E){
+//	        System.out.print(" "+e.getSymbol());	        
+//	    }
+//	    System.out.println();
+	    
+	    Tree subtree = new NodeTree();
+//	    Trees.duplicateTree(this.derivation.root(), this.derivation, subtree, null);
+	    
+	    subtree = this.getMaxRandomDerivation( subtree, this.depthBackwards(mPoint)+1, symbol, null );
+	    
+//	    System.out.println("New branch: "+new Derivation(grammar, maxDepth, subtree).getWord());
+	    
+	    this.derivation.replaceSubtree(mPoint, subtree);
+	    
+	    this.setMap(Trees.updateMap(this.derivation));
 	}
 
 	public void setMaxDepth(int d) throws GrammarException {
