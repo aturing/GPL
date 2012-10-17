@@ -232,8 +232,12 @@ public class Derivation {
 		return t;
 	}
 	
-	public void mutate() throws GrammarException {
-	    ArrayList<Position> NT = this.getNonTerminalNodes();
+	public Derivation mutate() throws GrammarException {
+	    Tree copy = new NodeTree();
+        Trees.duplicateTree(this.derivation.root(), this.derivation, copy, null);     
+        Derivation dCopy = new Derivation(grammar, maxDepth, copy);
+        
+	    ArrayList<Position> NT = dCopy.getNonTerminalNodes();
 	    Random rand = new Random();
         rand.setSeed(System.nanoTime());
         int pos = rand.nextInt(NT.size());
@@ -247,16 +251,16 @@ public class Derivation {
 //	    }
 //	    System.out.println();
 	    
-	    Tree subtree = new NodeTree();
-//	    Trees.duplicateTree(this.derivation.root(), this.derivation, subtree, null);
-	    
-	    subtree = this.getMaxRandomDerivation( subtree, this.depthBackwards(mPoint)+1, symbol, null );
+	    Tree subtree = new NodeTree();    
+	    subtree = this.getMaxRandomDerivation( subtree, dCopy.depthBackwards(mPoint)+1, symbol, null );
 	    
 //	    System.out.println("New branch: "+new Derivation(grammar, maxDepth, subtree).getWord());
 	    
-	    this.derivation.replaceSubtree(mPoint, subtree);
+	    copy.replaceSubtree(mPoint, subtree);
+	    dCopy.setTree(copy);
+        dCopy.setMap(Trees.updateMap(copy));
 	    
-	    this.setMap(Trees.updateMap(this.derivation));
+	   return dCopy;
 	}
 
 	public void setMaxDepth(int d) throws GrammarException {

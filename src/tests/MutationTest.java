@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.*;
+import jdsl.core.api.Tree;
 import grammar.Derivation;
 import grammar.Grammar;
 import grammar.GrammarException;
@@ -25,7 +26,7 @@ public class MutationTest {
     
     @Test
     public void generateANDmutate(){
-        Derivation auxD = null;
+        Derivation auxD = null, auxD2 = null;
         
         for (int i = 0; i < 1; i++) {
             try {
@@ -35,17 +36,17 @@ public class MutationTest {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            String auxCopy = auxD.getWord();
-            System.out.println( auxCopy );            
+            System.out.println( auxD.getWord() );   
             try {
-                auxD.mutate();
+                auxD2 = auxD.mutate();                
             }
             catch (GrammarException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            System.out.println( auxD.getWord() );
-            System.out.println("Mutation distance: "+StringUtils.getLevenshteinDistance( auxD.getWord(), auxCopy));
+           
+            System.out.println( auxD2.getWord() );
+            System.out.println("Mutation distance: "+StringUtils.getLevenshteinDistance( auxD.getWord(), auxD2.getWord()));
             
             
         }
