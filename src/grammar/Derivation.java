@@ -10,6 +10,7 @@ package grammar;
  **/
 
 
+import jdsl.core.api.ObjectIterator;
 import jdsl.core.api.PositionIterator;
 import jdsl.core.api.Tree;
 import jdsl.core.api.Position;
@@ -18,6 +19,7 @@ import jdsl.core.ref.PreOrderIterator;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -228,6 +230,20 @@ public class Derivation {
 		}
 	
 		return t;
+	}
+	
+	public void mutate() throws GrammarException {
+	    if(this.derivation!=null){
+            Position n = null;
+            Element e = null;
+            
+            PreOrderIterator poi = new PreOrderIterator(this.derivation);
+            while(poi.hasNext()){
+                n = (Position) poi.nextObject();
+                e = (Element)n.get("Element");
+                System.out.println(e.getSymbol());                   
+            }
+        }
 	}
 
 	public void setMaxDepth(int d) throws GrammarException {
