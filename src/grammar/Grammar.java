@@ -18,7 +18,6 @@ import java.util.List;
  **/
 
 public class Grammar {
-    private int mola;
 
 	/** Holds the maximum id used as key for the Elements of the Grammar (NonTerminals, Terminals and 
 	 *  Productions). Then if a new Element is created, its ID will be idMax + 1. **/
