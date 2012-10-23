@@ -9,8 +9,6 @@ package grammar;
  * 
  **/
 
-
-import jdsl.core.api.ObjectIterator;
 import jdsl.core.api.PositionIterator;
 import jdsl.core.api.Tree;
 import jdsl.core.api.Position;
@@ -19,7 +17,6 @@ import jdsl.core.ref.PreOrderIterator;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
