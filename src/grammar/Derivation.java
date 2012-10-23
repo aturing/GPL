@@ -240,18 +240,9 @@ public class Derivation {
         int pos = rand.nextInt(NT.size());
 	    Position mPoint = NT.get(pos);
 	    Element symbol = ((Element) mPoint.get("Element"));
-//	    System.out.print("Mutation node: "+symbol.getSymbol()+" -> ");
-	    Production prod = (Production) mPoint.get( "Production" );
-	    ArrayList<Element> E = prod.getRight();
-//	    for (Element e:E){
-//	        System.out.print(" "+e.getSymbol());	        
-//	    }
-//	    System.out.println();
 	    
 	    Tree subtree = new NodeTree();    
 	    subtree = this.getMaxRandomDerivation( subtree, dCopy.depthBackwards(mPoint)+1, symbol, null );
-	    
-//	    System.out.println("New branch: "+new Derivation(grammar, maxDepth, subtree).getWord());
 	    
 	    copy.replaceSubtree(mPoint, subtree);
 	    dCopy.setTree(copy);
