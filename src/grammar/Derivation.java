@@ -739,6 +739,30 @@ public class Derivation {
 		return nodes;
 	}
 	
+	/**
+	 * 
+	 * As a Derivation is a m-Tree (a Tree where each node has several nodes), the function returns the 
+	 * Derivation's terminal nodes from left to right.
+	 * 
+	 * @return
+	 * 			A Collection with the Derivation's nodes.
+	 * 
+	 */
+	public ArrayList<Terminal> getTerminalNodes() throws GrammarException {
+		ArrayList <Terminal> nodes = new ArrayList<Terminal>();
+		PositionIterator it =	derivation.positions();
+		
+		while(it.hasNext()) {
+			Position p = (Position) it.nextObject();
+			Element e = ((Element)p.get("Element"));
+			if ((e instanceof Terminal) && !e.equals(this.grammar.getAxiom())) {
+				nodes.add((Terminal) e);
+			}
+		}
+		
+		return nodes;
+	}
+	
 	
 	/**
 	 * 
