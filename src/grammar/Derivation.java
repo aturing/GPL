@@ -21,8 +21,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Vector;
-
 import grammar.util.Trees;
 
 public class Derivation {
@@ -119,36 +117,6 @@ public class Derivation {
 		this.setTree(t);
 		this.setMap(Trees.updateMap(t));
 	}
-	
-	   public Derivation(Grammar g, int maxDepth, Vector<String> productions) throws GrammarException {
-	        if(g==null){
-	            throw new GrammarException("The Grammar is NULL.");
-	        }
-	        this.grammar = g;
-	        this.derivation = null;
-	        this.map = null;
-	        this.maxDepth = maxDepth;
-	        this.depth = -1;
-	        
-	        Tree resTree = null;
-	        Map<String, LinkedList<Position>> resMap;
-	        int minimumDepth;
-	        
-	        if(this.grammar == null){
-	            throw new GrammarException("The Grammar is NULL. ");
-	        }
-	        
-	        minimumDepth = this.grammar.minimumDepth();
-	        if( minimumDepth > this.maxDepth){
-	            throw new GrammarException("The maximum global depth given " + this.maxDepth + " is lower than the minimum depth " + minimumDepth );
-	        }
-	        
-	        resTree = getFixedDerivation(resTree, 0, this.grammar.getAxiom(), null, productions);
-	        resMap = Trees.updateMap(resTree);
-	        
-	        this.setTree(resTree);
-	        this.setMap(resMap);
-	    }
 	
 	/**
 	 * 
@@ -259,76 +227,6 @@ public class Derivation {
 		}
 	
 		return t;
-	}
-	
-	public Tree getFixedDerivation(Tree t, int currentDepth, Element knot, Position parent, Vector<String> productions) throws GrammarException{	    
-	    Position pos;
-        
-        /* Checking possible errors */ 
-        if(knot == null){
-            throw new GrammarException("The start element is NULL");
-        }
-        
-        if(!(knot instanceof NonTerminal) && !(knot instanceof Terminal)){
-                throw new GrammarException("The nodes of the derivation should be a NonTerminal or Terminal");
-        }
-        
-        if(currentDepth > this.maxDepth){
-            throw new GrammarException("There was an error an the max depth was " + "crossed. ");
-        }
-    
-        if(t == null){
-            t = new NodeTree();
-        }
-        
-        if(parent == null){
-            pos = t.root();
-        }else{
-            /* The childs are added at the order that they are at the right side of
-             * the Production, then theirs rank (rankOfchild) are theirs positions
-             * in the right side of the Production. 
-             * Take care because ranks starts at 0. */
-            if(t.isExternal(parent)){
-                /* If father doesnt has childs. */
-                pos = t.insertFirstChild(parent, null);
-            }else{
-                /* If father has childs. */
-                pos = t.insertLastChild(parent, null);
-            }   
-        }
-        
-        /* Base step. Start Element is a terminal*/
-        if(knot instanceof Terminal){
-            /* p is the Production that generates the node(Position=node). It's only null for the
-             * root node. */
-            pos.set("Production", null);
-            /* e is the Element associated to the node (Position=node). */
-            pos.set("Element", knot);
-        }
-        /* Recursive step */
-        else{            
-            Production prod = this.grammar.getProductions().getThisProduction( productions.remove( 0 )); 
-            System.out.println("Adding production: "+prod.getSymbol());
-//            NonTerminal left = prod.getLeft();           
-            Collection<Element> cE = prod.getRight();
-            if (prod == null || knot == null) {
-                throw new GrammarException("The production or element of the position is null");
-            }
-            /* p is the Production of the node(Position=node).*/
-            pos.set("Production", prod);
-            /* e is the Element associated to the node (Position=node). */
-            pos.set("Element", knot);
-            
-            /* The childs are added at the order that they are at the right side of
-             * the Production. */
-            if(!cE.isEmpty()){
-                for(Element ele:cE){
-                    t=getFixedDerivation(t, currentDepth+1,  ele, pos, productions);
-                }
-            }
-        }
-    
-        return t;	    
 	}
 	
 	public Derivation mutate() throws GrammarException {

@@ -61,24 +61,5 @@ class Productions extends Elements<Production> implements Iterable<Production>{
 		}
 		return p;
 	}
-	
-	/** 
-     * 
-     * Returns the production whose symbol is specified in a string. Null if none.
-     * 
-     * @param prod
-     *          the string with the text that specifies the desired production
-     * 
-     **/
-	public Production getThisProduction(String prod){
-	    	    
-	    for (Production it: this.values()) {
-	        if (it.getSymbol().trim().equals( prod.trim() )){
-	            return it;
-	        }
-	    }	    
-	        
-        return null;
-	}
 
 }

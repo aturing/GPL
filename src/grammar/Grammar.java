@@ -159,8 +159,7 @@ public class Grammar {
 					rights.removeAll(Collections.singleton(""));
 					
 					for(String production: rights) {
-                        String aux = leftElement.getSymbol()+" ::="+production;
-                        Production p = new Production(this.idMax++, aux);
+						Production p = new Production(this.idMax++, line);
 						p.setLeft((NonTerminal) leftElement);
 						
 						List<String> right = new LinkedList<String>(Arrays.asList(production.split(" ")));
@@ -293,9 +292,7 @@ public class Grammar {
 					rights.removeAll(Collections.singleton(""));
 					
 					for(String production: rights) {
-                        String aux = leftElement.getSymbol()+" ::="+production;
-                        Production p = new Production(this.idMax++, aux);
-				
+						Production p = new Production(this.idMax++, line);
 						p.setLeft((NonTerminal) leftElement);
 						
 						List<String> right = new LinkedList<String>(Arrays.asList(production.split(" ")));
