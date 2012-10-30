@@ -21,6 +21,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Vector;
+
 import grammar.util.Trees;
 
 public class Derivation {
@@ -227,6 +229,14 @@ public class Derivation {
 		}
 	
 		return t;
+	}
+	
+	public Tree getFixedDerivation(Vector<String> productions){	    
+	    Tree t = new NodeTree();
+	    
+	    
+	    
+	    return t;
 	}
 	
 	public Derivation mutate() throws GrammarException {
