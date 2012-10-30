@@ -71,15 +71,14 @@ class Productions extends Elements<Production> implements Iterable<Production>{
      * 
      **/
 	public Production getThisProduction(String prod){
-	    Production p = null;
-	    
+	    	    
 	    for (Production it: this.values()) {
-	        if (it.getSymbol().equals( prod )){
-	            p = it;
+	        if (it.getSymbol().trim().equals( prod.trim() )){
+	            return it;
 	        }
 	    }	    
 	        
-        return p;
+        return null;
 	}
 
 }
