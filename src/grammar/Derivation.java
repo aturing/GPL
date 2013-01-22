@@ -243,7 +243,7 @@ public class Derivation {
 	    Element symbol = ((Element) mPoint.get("Element"));
 	    
 	    Tree subtree = new NodeTree();    
-	    subtree = this.getMaxRandomDerivation( subtree, dCopy.depthBackwards(mPoint)+1, symbol, null );
+	    subtree = this.getMaxRandomDerivation( subtree, dCopy.depthBackwards(mPoint), symbol, null );
 	    
 	    copy.replaceSubtree(mPoint, subtree);
 	    dCopy.setTree(copy);
