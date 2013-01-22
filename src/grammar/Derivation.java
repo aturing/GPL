@@ -184,7 +184,8 @@ public class Derivation {
 			 * root node. */
 			pos.set("Production", null);
 			/* e is the Element associated to the node (Position=node). */
-			pos.set("Element", knot);
+			/* a copy of the terminal is introduced to let diferent internal values for each instance */
+			pos.set("Element", new Terminal((Terminal) knot));
 		}
 		/* Recursive step */
 		else{
@@ -200,7 +201,7 @@ public class Derivation {
 			}
 			
 			if(cP_aux.isEmpty()){
-				throw new GrammarException("The NonTerminal " + knot.getSymbol() + " doesnt " + "has a Production associated so that " + "1 + Length(Production)<= " + this.grammar.getAxiom().getDepth());
+				throw new GrammarException("The NonTerminal " + knot.getSymbol() + " doesnt has a Production associated so that 1 + Length(Production)<= " + this.grammar.getAxiom().getDepth());
 			}
 			
 			Random rand = new Random();
@@ -270,7 +271,7 @@ public class Derivation {
 				n = (Position) poi.nextObject();
 				e = (Element)n.get("Element");
 				if (e instanceof Terminal){
-					res = res.concat(((Element)n.get("Element")).getSymbol());	
+					res = res.concat(((Element)n.get("Element")).getSymbol() + "");	
 				}					
 			}
 		}
@@ -750,17 +751,19 @@ public class Derivation {
 	 */
 	public ArrayList<Terminal> getTerminalNodes() throws GrammarException {
 		ArrayList <Terminal> nodes = new ArrayList<Terminal>();
-		PositionIterator it =	derivation.positions();
-		
-		while(it.hasNext()) {
-			Position p = (Position) it.nextObject();
-			Element e = ((Element)p.get("Element"));
-			if ((e instanceof Terminal) && !e.equals(this.grammar.getAxiom())) {
-				nodes.add((Terminal) e);
+
+		if(this.derivation != null){		
+			PreOrderIterator poi = new PreOrderIterator(this.derivation);
+			while(poi.hasNext()){
+				Position p = (Position) poi.nextObject();
+				Element e = (Element) p.get("Element");
+				if (e instanceof Terminal){
+					nodes.add((Terminal) e);	
+				}					
 			}
 		}
-		
 		return nodes;
+
 	}
 	
 	
