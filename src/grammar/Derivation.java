@@ -749,7 +749,7 @@ public class Derivation {
 	 * 			A Collection with the Derivation's nodes.
 	 * 
 	 */
-	public ArrayList<Terminal> getTerminalNodes() throws GrammarException {
+	public ArrayList<Terminal> getTerminalNodes() {
 		ArrayList <Terminal> nodes = new ArrayList<Terminal>();
 
 		if(this.derivation != null){		
