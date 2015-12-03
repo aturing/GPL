@@ -8,6 +8,7 @@ package grammar;
 
 public class Terminal extends Element {
 
+	private Object value;
 	
 	/**
 	 * 
@@ -23,5 +24,40 @@ public class Terminal extends Element {
 	public Terminal(int id, String symbol) throws GrammarException{
 		super(id, symbol);
 		this.setDepth(0);
+		this.value = null;
 	}
+	
+	
+	/**
+	 * 
+	 *  Constructor that receives a terminal to get copied.
+	 *  
+	 *  @param terminal
+	 *  			An instance of terminal.
+	 * 
+	 **/
+	public Terminal(Terminal terminal) throws GrammarException{
+		super(terminal.getId(), terminal.getSymbol());
+		this.setDepth(0);
+		this.value = null;
+	}
+	
+	/**
+	 * Set value object
+	 * 
+	 * @param object
+	 * 				value of the termninal
+	 * 
+	 */
+	public void value(Object value) { this.value = value; }
+	
+	
+	/**
+	 * get value object
+	 * 
+	 * @return object
+	 * 				value of the terminal
+	 * 
+	 */
+	public Object value() { return this.value; }
 }

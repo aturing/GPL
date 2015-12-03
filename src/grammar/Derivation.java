@@ -184,7 +184,8 @@ public class Derivation {
 			 * root node. */
 			pos.set("Production", null);
 			/* e is the Element associated to the node (Position=node). */
-			pos.set("Element", knot);
+			/* a copy of the terminal is introduced to let diferent internal values for each instance */
+			pos.set("Element", new Terminal((Terminal) knot));
 		}
 		/* Recursive step */
 		else{
@@ -200,7 +201,7 @@ public class Derivation {
 			}
 			
 			if(cP_aux.isEmpty()){
-				throw new GrammarException("The NonTerminal " + knot.getSymbol() + " doesnt " + "has a Production associated so that " + "1 + Length(Production)<= " + this.grammar.getAxiom().getDepth());
+				throw new GrammarException("The NonTerminal " + knot.getSymbol() + " doesnt has a Production associated so that 1 + Length(Production)<= " + this.grammar.getAxiom().getDepth());
 			}
 			
 			Random rand = new Random();
@@ -240,18 +241,9 @@ public class Derivation {
         int pos = rand.nextInt(NT.size());
 	    Position mPoint = NT.get(pos);
 	    Element symbol = ((Element) mPoint.get("Element"));
-//	    System.out.print("Mutation node: "+symbol.getSymbol()+" -> ");
-	    Production prod = (Production) mPoint.get( "Production" );
-	    ArrayList<Element> E = prod.getRight();
-//	    for (Element e:E){
-//	        System.out.print(" "+e.getSymbol());	        
-//	    }
-//	    System.out.println();
 	    
 	    Tree subtree = new NodeTree();    
-	    subtree = this.getMaxRandomDerivation( subtree, dCopy.depthBackwards(mPoint)+1, symbol, null );
-	    
-//	    System.out.println("New branch: "+new Derivation(grammar, maxDepth, subtree).getWord());
+	    subtree = this.getMaxRandomDerivation( subtree, dCopy.depthBackwards(mPoint), symbol, null );
 	    
 	    copy.replaceSubtree(mPoint, subtree);
 	    dCopy.setTree(copy);
@@ -279,7 +271,7 @@ public class Derivation {
 				n = (Position) poi.nextObject();
 				e = (Element)n.get("Element");
 				if (e instanceof Terminal){
-					res = res.concat(((Element)n.get("Element")).getSymbol());	
+					res = res.concat(((Element)n.get("Element")).getSymbol() + "");	
 				}					
 			}
 		}
@@ -746,6 +738,32 @@ public class Derivation {
 		}
 		
 		return nodes;
+	}
+	
+	/**
+	 * 
+	 * As a Derivation is a m-Tree (a Tree where each node has several nodes), the function returns the 
+	 * Derivation's terminal nodes from left to right.
+	 * 
+	 * @return
+	 * 			A Collection with the Derivation's nodes.
+	 * 
+	 */
+	public ArrayList<Terminal> getTerminalNodes() {
+		ArrayList <Terminal> nodes = new ArrayList<Terminal>();
+
+		if(this.derivation != null){		
+			PreOrderIterator poi = new PreOrderIterator(this.derivation);
+			while(poi.hasNext()){
+				Position p = (Position) poi.nextObject();
+				Element e = (Element) p.get("Element");
+				if (e instanceof Terminal){
+					nodes.add((Terminal) e);	
+				}					
+			}
+		}
+		return nodes;
+
 	}
 	
 	
