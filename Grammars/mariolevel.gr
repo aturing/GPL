@@ -1,0 +1,27 @@
+#A# S
+#N# LEVEL CHUNKS CHUNK GAP X Y WG WBEFORE WAFTER WG PLATFORM W TUBE BOXES BOXTYPE ENEMIES ENEMY ENEMYTYPE H WC DIGIT DOSCINCO NUMBER TRESNUEVE ZEROCINCO UNOOCHO CINCONUEVE
+#T# gap platform tube hill cannon_hill tube_hill coin cannon block_coin block_powerup rock_coin rock_empty koopa goompa ( ) , 0 1 2 3 4 5 6 7 8 9 ;
+S ::= LEVEL
+LEVEL ::= CHUNKS ; ENEMIES
+CHUNKS ::= CHUNK ; CHUNK ; CHUNK ; CHUNK ; CHUNK | CHUNK ; CHUNKS
+CHUNK ::= gap ( X , Y , WG , WBEFORE , WAFTER ) | platform ( X , Y , W ) | tube ( X , Y , H , WBEFORE , WAFTER ) | hill ( X , Y , W ) | cannon_hill ( X , Y , H , WBEFORE , WAFTER ) | tube_hill ( X , Y , H , WBEFORE , WAFTER ) | coin ( X , Y , WC ) | cannon ( X , Y , H , WBEFORE , WAFTER ) | BOXES
+X ::= 1 CINCONUEVE | UNOOCHO DIGIT | 9 ZEROCINCO
+Y ::= 1 | 2 | 3
+WG ::= 2 | 3 | 4 | 5
+W ::= 0 TRESNUEVE | 1 ZEROCINCO
+WAFTER ::= DOSCINCO
+WBEFORE ::= DOSCINCO
+WC ::= DIGIT
+H ::= 2 | 3
+BOXES ::= BOXTYPE ( X , Y )
+BOXTYPE ::= block_coin | block_powerup | rock_coin | rock_empty
+ENEMIES ::= ENEMY ; ENEMY ; ENEMY ; ENEMY ; ENEMY | ENEMY ; ENEMIES
+ENEMY ::= ENEMYTYPE ( X )
+ENEMYTYPE ::= koopa | goompa
+NUMBER ::= DIGIT DIGIT
+TRESNUEVE ::= 3 | 4 | 5 | 6 | 7 | 8 | 9
+ZEROCINCO ::= 0 | 1 | 2 | 3 | 4 | 5 
+UNOOCHO ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 
+CINCONUEVE ::= 5 | 6 | 7 | 8 | 9
+DOSCINCO ::= 2 | 3 | 4 | 5 
+DIGIT ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
